@@ -1,5 +1,19 @@
-def read_points():
-    N = int(input("Please enter count of points : "))
+import random
+
+def generate_points(N):
+    X = [0] * N
+    Y = [0] * N
+    S = [' '] * N
+    
+    for i in range(N):
+        X[i] = random.randint(1, N)
+        Y[i] = random.randint(1, N)
+        S[i] = random.choice(['a', 'b'])
+        
+    return X, Y, S
+
+
+def read_points(N):   
     X = [0] * N
     Y = [0] * N
     S = [' '] * N
@@ -15,7 +29,7 @@ def read_points():
                     raise Exception('ONLY A OR B, small letters are okay')
                 reading_finished = True
             except Exception as exp:
-                print(f"Not valid input ma3lesh, plz try again. LET'S ENTER AGAIN. \nDetails : {exp}")
+                print(f"Not valid input, plz try again. LET'S ENTER AGAIN. \nDetails : {exp}")
         i = i + 1
     return X, Y, S
 
@@ -33,8 +47,8 @@ def calculate_distances(X, Y, x, y):
 
 def select_k_neighbours(K, distances):
     indexes = []
-    sorted_indexes = sorted(range(len(distances)), key=lambda k: distances[k])
-    indexes = sorted_indexes[0:K - 1]
+    sorted_indexes = sorted(range(len(distances)), key=lambda i: distances[i])
+    indexes = sorted_indexes[0:K]
     return indexes
 
 
@@ -44,7 +58,7 @@ def vote_classes(class_of_points, k_points_indexes):
     i = 0
     n = len(k_points_indexes)
     while i < n:
-        if class_of_points[k_points_indexes[i]] == 'A':
+        if class_of_points[k_points_indexes[i]].upper() == 'A':
             A_votes = A_votes + 1
         else:
             B_votes = B_votes + 1
@@ -61,7 +75,15 @@ def func5():
 
 def k_nearest_neighbor():
     print("K-Nearest Neighbours Algorithm")
-    [X, Y, S] = read_points()
+    N = int(input("Please enter count of points : "))
+    # [X, Y, S] = read_points(N)
+    X, Y, S = generate_points(N)
+
+    print("X coordinates:", X)
+    print("Y coordinates:", Y)
+    print("Classes (S):  ", S)
+        
+
 
     print("Now enter the new point's coordinates please : ")
     x_saha = int(input("Enter point's coordinates on X axes : "))
